@@ -239,6 +239,7 @@ async def amireallyalive(alive):
         f"•  🗃 `Loaded modules : {len(modules)} `\n"
         f"•  🧸 `One4uBot       : v{USERBOT_VERSION} `\n"
         f"•  🕒 `Bot Uptime     : {uptime} `\n"
+        f"•  🕒 `Re-Edited      : @willyamwillys `\n"
         "`⊷⊷⊷⊷⊷⊷⊷⊷⊷⊷⊶⊷⊶⊶⊶⊶⊶⊶⊶⊶⊶⊶`"
     )
     if ALIVE_LOGO:
