@@ -88,7 +88,7 @@ async def carbon_api(e):
         e.chat_id,
         file_path,
         caption=(
-            "Dibuat Menggunakan **Carbon**,"
+            "Dibuat Menggunakan [Carbon](ttps://carbon.now.sh/),"
             "\nsebuah proyek oleh [WillyamWillys](https://github.com/willyamwillys/One4uBot)"
         ),
         force_document=True,
