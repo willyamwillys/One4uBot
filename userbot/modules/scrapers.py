@@ -89,7 +89,7 @@ async def carbon_api(e):
         file_path,
         caption=(
             "Dibuat Menggunakan [Carbon](https://carbon.now.sh/about/),"
-            "\nsebuah proyek oleh [WillyamWillys](https://https://github.com/willyamwillys/)"
+            "\nsebuah proyek oleh [WillyamWillys](https://github.com/willyamwillys/One4uBot)"
         ),
         force_document=True,
         reply_to=e.message.reply_to_msg_id,
