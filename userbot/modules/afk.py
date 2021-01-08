@@ -63,7 +63,7 @@ afk_start = {}
 
 @register(outgoing=True, pattern="^.afk(?: |$)(.*)", disable_errors=True)
 async def set_afk(afk_e):
-    """ For .afk command, allows you to inform people that you are afk when they message you """
+    """ Untuk perintah .afk, memungkinkan Anda memberi tahu orang-orang bahwa Anda afk saat mereka mengirimi Anda pesan """
     afk_e.text
     string = afk_e.pattern_match.group(1)
     global ISAFK
@@ -81,13 +81,13 @@ async def set_afk(afk_e):
     if string:
         AFKREASON = string
         await afk_e.edit(
-            f"Going AFK!\
-        \nReason: `{string}`"
+            f"Menjadi AFK!\
+        \nAlasan: `{string}`"
         )
     else:
-        await afk_e.edit("Going AFK!")
+        await afk_e.edit("Menjadi AFK!")
     if BOTLOG:
-        await afk_e.client.send_message(BOTLOG_CHATID, "#AFK\nYou went AFK!")
+        await afk_e.client.send_message(BOTLOG_CHATID, "#AFK\nAnda pergi AFK!")
     ISAFK = True
     afk_time = datetime.now()  # pylint:disable=E0602
     raise StopPropagation
@@ -95,7 +95,7 @@ async def set_afk(afk_e):
 
 @register(outgoing=True)
 async def type_afk_is_not_true(notafk):
-    """ This sets your status as not afk automatically when you write something while being afk """
+    """ Ini menetapkan status Anda sebagai tidak afk secara otomatis ketika Anda menulis sesuatu saat sedang afk """
     global ISAFK
     global COUNT_MSG
     global USERS
@@ -108,17 +108,17 @@ async def type_afk_is_not_true(notafk):
     afk_end = back_alive.replace(microsecond=0)
     if ISAFK:
         ISAFK = False
-        msg = await notafk.respond("I'm no longer AFK.")
+        msg = await notafk.respond("Saya tidak lagi AFK.")
         time.sleep(3)
         await msg.delete()
         if BOTLOG:
             await notafk.client.send_message(
                 BOTLOG_CHATID,
-                "You've recieved "
+                "Anda sudah menerima "
                 + str(COUNT_MSG)
-                + " messages from "
+                + " pesan dari "
                 + str(len(USERS))
-                + " chats while you were away",
+                + " obrolan saat Anda pergi",
             )
             for i in USERS:
                 if str(i).isnumeric():
@@ -127,13 +127,13 @@ async def type_afk_is_not_true(notafk):
                     await notafk.client.send_message(
                         BOTLOG_CHATID,
                         "[" + name0 + "](tg://user?id=" + str(i) + ")" +
-                        " sent you " + "`" + str(USERS[i]) + " message(s)`",
+                        " mengirimmu " + "`" + str(USERS[i]) + " pesan(s)`",
                     )
                 else:  # anon admin
                     await notafk.client.send_message(
                         BOTLOG_CHATID,
-                        "Anonymous admin in `" + i + "` sent you " + "`" +
-                        str(USERS[i]) + " message(s)`",
+                        "Admin anonim di `" + i + "` mengirimmu " + "`" +
+                        str(USERS[i]) + " pesan(s)`",
                     )
         COUNT_MSG = 0
         USERS = {}
@@ -142,7 +142,7 @@ async def type_afk_is_not_true(notafk):
 
 @register(incoming=True, disable_edited=True)
 async def mention_afk(mention):
-    """ This function takes care of notifying the people who mention you that you are AFK."""
+    """ Fungsi ini berfungsi untuk memberi tahu orang yang menyebut Anda bahwa Anda AFK."""
     global COUNT_MSG
     global USERS
     global ISAFK
@@ -152,7 +152,7 @@ async def mention_afk(mention):
     global afk_end
     back_alivee = datetime.now()
     afk_end = back_alivee.replace(microsecond=0)
-    afk_since = "a while ago"
+    afk_since = "belum lama berselang"
     if ISAFK and mention.message.mentioned:
             now = datetime.now()
             datime_since_afk = now - afk_time  # pylint:disable=E0602
@@ -165,7 +165,7 @@ async def mention_afk(mention):
             time %= 60
             seconds = time
             if days == 1:
-                afk_since = "Yesterday"
+                afk_since = "Kemarin"
             elif days > 1:
                 if days > 6:
                     date = now + datetime.timedelta(
@@ -193,8 +193,8 @@ async def mention_afk(mention):
             if mention.sender_id not in USERS or chat_title not in USERS:
                 if AFKREASON:
                     await mention.reply(
-                        f"I'm AFK since {afk_since}.\
-                        \nReason: `{AFKREASON}`"
+                        f"Saya AFK sejak {afk_since}.\
+                        \nAlasan: `{AFKREASON}`"
                     )
                 else:
                     await mention.reply(str(choice(AFKSTR)))
@@ -206,8 +206,8 @@ async def mention_afk(mention):
                 if USERS[mention.sender_id] % randint(2, 4) == 0:
                     if AFKREASON:
                         await mention.reply(
-                            f"I'm still AFK since {afk_since}.\
-                            \nReason: `{AFKREASON}`"
+                            f"Saya masih AFK sejak {afk_since}.\
+                            \nAlasan: `{AFKREASON}`"
                         )
                     else:
                         await mention.reply(str(choice(AFKSTR)))
@@ -220,7 +220,7 @@ async def mention_afk(mention):
 
 @register(incoming=True, disable_errors=True)
 async def afk_on_pm(sender):
-    """ Function which informs people that you are AFK in PM """
+    """ Fungsi yang memberi tahu orang-orang bahwa Anda AFK di PM """
     global ISAFK
     global USERS
     global COUNT_MSG
@@ -233,7 +233,7 @@ async def afk_on_pm(sender):
     global afk_end
     back_alivee = datetime.now()
     afk_end = back_alivee.replace(microsecond=0)
-    afk_since = "a while ago"
+    afk_since = "belum lama berselang"
     if (
         sender.is_private
         and sender.sender_id != 777000
@@ -260,7 +260,7 @@ async def afk_on_pm(sender):
             time %= 60
             seconds = time
             if days == 1:
-                afk_since = "Yesterday"
+                afk_since = "Kemarin"
             elif days > 1:
                 if days > 6:
                     date = now + datetime.timedelta(
@@ -279,8 +279,8 @@ async def afk_on_pm(sender):
             if sender.sender_id not in USERS:
                 if AFKREASON:
                     await sender.reply(
-                        f"I'm AFK since {afk_since}.\
-                        \nReason: `{AFKREASON}`"
+                        f"Saya AFK sejak {afk_since}.\
+                        \nAlasan: `{AFKREASON}`"
                     )
                 else:
                     await sender.reply(str(choice(AFKSTR)))
@@ -290,8 +290,8 @@ async def afk_on_pm(sender):
                 if USERS[sender.sender_id] % randint(2, 4) == 0:
                     if AFKREASON:
                         await sender.reply(
-                            f"I'm still AFK since {afk_since}.\
-                            \nReason: `{AFKREASON}`"
+                            f"Saya masih AFK sejak {afk_since}.\
+                            \nAlasan: `{AFKREASON}`"
                         )
                     else:
                         await sender.reply(str(choice(AFKSTR)))
@@ -305,8 +305,8 @@ async def afk_on_pm(sender):
 CMD_HELP.update(
     {
         "afk": ".afk [Optional Reason]\
-\nUsage: Sets you as afk.\nReplies to anyone who tags/PM's \
-you telling them that you are AFK(reason).\n\nSwitches off AFK when you type back anything, anywhere.\
+\nUsage: Menetapkan Anda sebagai afk.\nBalasan untuk siapa saja yang menandai / PM \
+Anda memberi tahu mereka bahwa Anda AFK (alasan).\n\nMematikan AFK saat Anda mengetik kembali apa pun, di mana pun.\
 "
     }
 )
